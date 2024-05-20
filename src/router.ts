@@ -7,6 +7,7 @@ import News from '@/views/News.vue'
 import Papers from '@/views/Papers.vue'
 import Projects from '@/views/Projects.vue'
 import Users from '@/views/Users.vue'
+import Banner from '@/views/banner.vue'
 
 const router=createRouter({
     history:createWebHistory(),
@@ -49,6 +50,11 @@ const router=createRouter({
             path:'/users',
             name:'users',
             component:Users
+        },
+        {
+            path:'/banner',
+            name:'banner',
+            component:Banner
         }
     ]
 })

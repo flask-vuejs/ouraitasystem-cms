@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-space direction="vertical" :size="20">
-      <h1>帖子管理</h1>
+      <h1>论文管理</h1>
       <el-table :data="papers" style="width: 100%">
         <el-table-column label="标题">
           <!-- scope是一个对象，它包含了当前行的数据（通过scope.row访问）以及其它可能有用的属性或方法，用于在模板内部访问和操作数据 -->

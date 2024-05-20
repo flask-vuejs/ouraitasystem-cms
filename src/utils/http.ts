@@ -29,8 +29,25 @@ class Http {
         // }
     }
 
+    
     _post(url:string,data:Record<string,any>){
         return this.http.post(url,qs.stringify(data))
+    }
+    addBanner(data:any){
+        const url="/banner/add"
+        return this._post(url,data)
+    }
+    getBannerList(){
+        const url="/banner/list"
+        return this.http.get(url)
+    }
+    deleteBanner(banner_id:number){
+        const url="/banner/delete"
+        return this._post(url,{"banner_id":banner_id})
+    }
+    editBanner(data:any){
+        const url="/banner/edit"
+        return this._post(url,data)
     }
     getPapersList(page:number){
         const url="/papers/list?page="+(page?page.toString():"1")
