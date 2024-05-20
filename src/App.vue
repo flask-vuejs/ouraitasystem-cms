@@ -67,6 +67,12 @@
                     <span>用户管理</span>
                   </template>
                 </el-menu-item>
+                <el-menu-item index="8" :route="{name:'banner'}">
+                  <template #title>
+                    <el-icon><User /></el-icon>
+                    <span>轮播图管理(测试用)</span>
+                  </template>
+                </el-menu-item>
               </el-menu>
             </el-col>
           </el-row>

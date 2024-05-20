@@ -11,7 +11,10 @@
     "axios": "^1.2.1",
     "element-plus": "^2.2.19",
     "vue": "^3.2.13",
-    "vue-router": "^4.3.2"
+    "vue-axios": "^3.5.2",
+    "vue-router": "^4.3.2",
+    "vue3-seamless-scroll": "^2.0.1",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-typescript": "~5.0.0",
