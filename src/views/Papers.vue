@@ -6,13 +6,19 @@
         <el-table-column label="标题">
           <!-- scope是一个对象，它包含了当前行的数据（通过scope.row访问）以及其它可能有用的属性或方法，用于在模板内部访问和操作数据 -->
           <template #default="scope">
-            <a :href="$http.server_host + '/papers/list/' + scope.row.papers_id" target="_blank">{{
+            <a :href="$http.server_host + '/papers/detail/' + scope.row.papers_id" target="_blank">{{
               scope.row.title
             }}</a>
           </template>
         </el-table-column>
         <el-table-column prop="create_time" label="发布时间" width="180" />
-        <el-table-column prop="image_url" label="封面图片地址" />
+        <!-- <el-table-column prop="image_url" label="封面图片地址" /> -->
+        <el-table-column label="图片" width="300" >
+             <template #default="scope">
+              <img :src="formatImageUrl(scope.row.image_url)" alt="" style="height: 100px; width: auto; object-fit: cover;">
+             </template>
+             <!-- scope代表当前行的数据 -->
+        </el-table-column>
         <el-table-column prop="author" label="作者" />
         <!-- prop="":指定该列数据的绑定字段;label="":指定了该列的标题 -->
         <el-table-column label="操作">
@@ -29,6 +35,7 @@
         </el-table-column>
       </el-table>
     </el-space>
+
 
     <!-- 删除帖子确认对话框 -->
   <el-dialog
@@ -58,6 +65,7 @@
     @current-change="onPageChanged(currentpage)" -->
 </template>
 
+
 <script lang="ts">
 import {Delete} from "@element-plus/icons";
 import { ElMessage } from 'element-plus';
@@ -76,6 +84,14 @@ interface paper{
 export default defineComponent({
   setup(){
     const {proxy}=getCurrentInstance() as ComponentInternalInstance
+    // 图片地址规范化
+    const formatImageUrl=(image_url:string)=>{
+        if(image_url.startsWith('http')){
+          return image_url
+        }else{
+          return proxy?.$http.server_host+image_url
+        }
+      }
     let papers=ref<paper[]>([])
     let deletingIndex:number=0;
     const total_count=ref(0);
@@ -124,7 +140,8 @@ export default defineComponent({
       confirmDialogVisible,
       onDeletePostClick,
       onConfirmDeletePostClick,
-      onPageChanged
+      onPageChanged,
+      formatImageUrl
     }
   }
 })

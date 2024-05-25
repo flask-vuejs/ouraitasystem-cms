@@ -42,7 +42,7 @@
       </el-table>
       <!-- 论文展示列表结束 -->
   <!-- 弹出form框 -->
-  <el-dialog v-model="FormVisible" title="添加/修改论文" width="30%">
+  <el-dialog v-model="FormVisible" :title="FormTitle" width="30%">
     <el-form :model="form" :rules="rules" ref="ruleFormRef">
       <!-- 论文名称输入框开始 -->
       <el-form-item label="论文名称" :label-width="formLabelWidth" prop="name">
@@ -116,6 +116,7 @@
       const {proxy}=getCurrentInstance() as ComponentInternalInstance
       const formLabelWidth = "140px";
       const FormVisible = ref(false);   // 添加/修改论文对话框显示
+      const FormTitle = ref("");    // 添加/修改论文对话框标题
       const DeleteDialogVisible = ref(false);  // 删除轮播图对话框显示
       let deletingIndex:number=0;  // 当前要删除的轮播图索引
       let editingIndex:number=0;  // 当前要编辑的轮播图索引
@@ -148,10 +149,14 @@
           form.name=banner.name;
           form.image_url=banner.image_url;
           form.link_url=banner.link_url;
+          // 根据是否为编辑模式设置FormTitle
+          FormTitle.value = "修改轮播图";
         }else{
           form.name="";
           form.image_url="";
           form.link_url="";
+          // 新增模式设置FormTitle
+          FormTitle.value = "添加轮播图";
         }
       }
       // editBanner  编辑论文对话框
@@ -267,6 +272,7 @@
       })
       return{
         rules,
+        FormTitle,
         FormVisible,
         DeleteDialogVisible,
         formLabelWidth,
