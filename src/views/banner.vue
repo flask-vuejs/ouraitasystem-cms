@@ -13,7 +13,7 @@
       </el-space>
       <!-- 论文管理界面头部结束 -->
       <!-- 论文展示列表开始 -->
-      <el-table :data="banners" style="width: 100%" height="800">
+      <el-table :data="banners" style="width: 100%" height="700">
           <el-table-column prop="name" label="名称" width="180" />
           <el-table-column label="图片" width="300" >
              <template #default="scope">

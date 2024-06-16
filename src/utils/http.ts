@@ -57,6 +57,18 @@ class Http {
         const url="/papers/delete"
         return this._post(url,{"id":paper_id})
     }
+    getGroupList(){
+        const url="/group/list"
+        return this.http.get(url)
+    }
+    getNewsList(){
+        const url="/news/list"
+        return this.http.get(url)
+    }
+    getDatasetsList(){
+        const url="/datasets/list"
+        return this.http.get(url)
+    }
 }
 
 export default new Http()
