@@ -20,3 +20,7 @@ declare module 'vue' {
   }
 }
 app.mount('#app')
+
+// npm run serve
+
+// 这周更新未同步
