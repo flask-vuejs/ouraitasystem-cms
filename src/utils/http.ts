@@ -61,9 +61,25 @@ class Http {
         const url="/group/list"
         return this.http.get(url)
     }
+    addGroups(data:any){
+        const url="/group/add"
+        return this._post(url,data)
+    }
+    deleteGroups(group_id:number){
+        const url="/group/delete"
+        return this._post(url,{"id":group_id})
+    }
     getNewsList(){
         const url="/news/list"
         return this.http.get(url)
+    }
+    addNews(data:any){
+        const url="/news/add"
+        return this._post(url,data)
+    }
+    deleteNews(news_id:number){
+        const url="/news/delete"
+        return this._post(url,{"id":news_id})
     }
     getDatasetsList(){
         const url="/datasets/list"
