@@ -53,6 +53,18 @@ class Http {
         const url="/papers/list?page="+(page?page.toString():"1")
         return this.http.get(url)
     }
+    get_paper_form(paper_id:string){
+        const url="/papers/form?paper_id="+paper_id
+        return this.http.get(url)
+    }
+    add_paper(data:any){
+        const url="/papers/add"
+        return this._post(url,data)
+    }
+    edit_paper(data:any){
+        const url="/papers/edit"
+        return this._post(url,data)
+    }
     deletePapers(paper_id:number){
         const url="/papers/delete"
         return this._post(url,{"id":paper_id})
@@ -63,6 +75,10 @@ class Http {
     }
     addGroups(data:any){
         const url="/group/add"
+        return this._post(url,data)
+    }
+    editGroups(data:any){
+        const url="/group/edit"
         return this._post(url,data)
     }
     deleteGroups(group_id:number){
@@ -77,6 +93,10 @@ class Http {
         const url="/news/add"
         return this._post(url,data)
     }
+    editNews(data:any){
+        const url="/news/edit"
+        return this._post(url,data)
+    }
     deleteNews(news_id:number){
         const url="/news/delete"
         return this._post(url,{"id":news_id})
@@ -84,6 +104,50 @@ class Http {
     getDatasetsList(){
         const url="/datasets/list"
         return this.http.get(url)
+    }
+    deleteDataset(dataset_id:number){
+        const url="/datasets/delete"
+        return this._post(url,{"id":dataset_id})
+    }
+    addDataset(data:any){
+        const url="/datasets/add"
+        return this._post(url,data)
+    }
+    editDataset(data:any){
+        const url="/datasets/edit"
+        return this._post(url,data)
+    }
+    get_hxxm(){
+        const url="/hxxm/list"
+        return this.http.get(url)
+    }
+    add_hxxm(data:any){
+        const url="/hxxm/add"
+        return this._post(url,data)
+    }
+    edit_hxxm(data:any){
+        const url="/hxxm/edit"
+        return this._post(url,data)
+    }
+    delete_hxxm(hxxm_id:number){
+        const url="/hxxm/delete"
+        return this._post(url,{"id":hxxm_id})
+    }
+    get_zxxm(){
+        const url="/zxxm/list"
+        return this.http.get(url)
+    }
+    add_zxxm(data:any){
+        const url="/zxxm/add"
+        return this._post(url,data)
+    }
+    edit_zxxm(data:any){
+        const url="/zxxm/edit"
+        return this._post(url,data)
+    }
+    delete_zxxm(zxxm_id:number){
+        const url="/zxxm/delete"
+        return this._post(url,{"id":zxxm_id})
     }
 }
 

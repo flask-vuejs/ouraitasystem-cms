@@ -5,9 +5,9 @@ import Datasets from '@/views/Datasets.vue'
 import Groups from '@/views/Groups.vue'
 import News from '@/views/News.vue'
 import Papers from '@/views/Papers.vue'
-import Projects from '@/views/Projects.vue'
-import Users from '@/views/Users.vue'
-import Banner from '@/views/banner.vue'
+import Hxxm from '@/views/Hxxm.vue'
+import Zxxm from '@/views/Zxxm.vue'
+import Paper_add from '@/views/Paper_add.vue'
 
 const router=createRouter({
     history:createWebHistory(),
@@ -42,19 +42,19 @@ const router=createRouter({
             component:Papers
         },
         {
-            path:'/projects',
-            name:'projects',
-            component:Projects
+            path:'/hxxm',
+            name:'hxxm',
+            component:Hxxm
         },
         {
-            path:'/users',
-            name:'users',
-            component:Users
+            path:'/zxxm',
+            name:'zxxm',
+            component:Zxxm
         },
         {
-            path:'/banner',
-            name:'banner',
-            component:Banner
+            path:'/paper_add',
+            name:'Paper_add',
+            component:Paper_add
         }
     ]
 })

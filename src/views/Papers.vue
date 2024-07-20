@@ -2,43 +2,50 @@
   <div>
     <el-space direction="vertical" :size="20">
       <h1>论文管理</h1>
-      <el-table :data="papers" height="700" style="width: 100%">
-        <el-table-column label="标题">
-          <!-- scope是一个对象，它包含了当前行的数据（通过scope.row访问）以及其它可能有用的属性或方法，用于在模板内部访问和操作数据 -->
-          <template #default="scope">
-            <a :href="$http.server_host + '/papers/detail/' + scope.row.papers_id" target="_blank">{{
-              scope.row.title
-            }}</a>
-          </template>
-        </el-table-column>
-        <el-table-column prop="create_time" label="发布时间" width="180" />
-        <!-- <el-table-column prop="image_url" label="封面图片地址" /> -->
-        <el-table-column label="图片" width="300" >
-             <template #default="scope">
-              <img :src="formatImageUrl(scope.row.image_url)" alt="" style="height: 100px; width: auto; object-fit: cover;">
-             </template>
-             <!-- scope代表当前行的数据 -->
-        </el-table-column>
-        <el-table-column prop="author" label="作者" />
-        <!-- prop="":指定该列数据的绑定字段;label="":指定了该列的标题 -->
-        <el-table-column label="操作">
-          <template #default="scope">
-            <el-button
-              type="danger"
-              circle
-              size="small"
-              @click="onDeletePostClick(scope.$index)"
-            >
-              <el-icon><delete /></el-icon>
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <div style="text-align: right">
+          <el-button type="primary" @click.prevent="onAdd">
+              <el-icon><plus /></el-icon>
+              添加论文
+          </el-button>
+      </div>
     </el-space>
+    <el-table :data="papers" height="700" class="width: 100%" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
+      <!-- <el-table-column label="标题">
+        <template #default="scope">
+          <a :href="$http.server_host + '/papers/detail/' + scope.row.papers_id" target="_blank">{{
+            scope.row.title
+          }}</a>
+        </template>
+      </el-table-column> -->
+      <el-table-column 
+                v-for="item in columns" :key="item.prop"
+                :prop="item.prop"
+                :label="item.label"
+                width="200px"
+      >
+        <template #default="scope">
+          <!-- 截断文本并显示省略号 -->
+          <span>{{ truncateText(scope.row[item.prop], 50) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="封面" width="220px" >
+            <template #default="scope">
+            <img :src="formatImageUrl(scope.row.image_url)" alt="" style="height: 100px; width: auto; object-fit: cover;">
+            </template>
+      </el-table-column>
+      <el-table-column label="操作" fixed="right" width="200">
+        <template #default="scope">
+          <el-button type="info" size="small" @click="onEdit(scope.$index)">编辑</el-button>
+          <el-button  type="danger"  size="small"  @click="onDelete(scope.$index)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- <el-button>
+      <a href="/paper_add" target="_blank">添加论文</a>
+    </el-button> -->
+  </div>
 
-    
-
-    <!-- 删除帖子确认对话框 -->
+  <!-- 删除帖子确认对话框 -->
   <el-dialog
     v-model="confirmDialogVisible"
     title="提示"
@@ -48,11 +55,11 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="confirmDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="onConfirmDeletePostClick">确定</el-button>
+        <el-button type="primary" @click="confirmDelete">确定</el-button>
       </span>
     </template>
   </el-dialog>
-  </div>
+
   <div class="pagination-container">
     <el-pagination 
     background 
@@ -73,18 +80,12 @@ import { ElMessage } from 'element-plus';
 import { de } from "element-plus/es/locale";
 import {defineComponent,onMounted,ref,reactive} from "vue";
 import { ComponentInternalInstance, getCurrentInstance } from "vue";
-interface paper{
-  papers_id:number,
-  title:string,
-  image_url:string,
-  content:string,
-  author:string,
-  create_time:string,
-}
+import type {paper,table_col} from '../utils/type'
+import { useRouter } from 'vue-router';
+import {truncateText} from '../utils/hooks'
 
 export default defineComponent({
   setup(){
-    const {proxy}=getCurrentInstance() as ComponentInternalInstance
     // 图片地址规范化
     const formatImageUrl=(image_url:string)=>{
         if(image_url.startsWith('http')){
@@ -92,7 +93,34 @@ export default defineComponent({
         }else{
           return proxy?.$http.server_host+image_url
         }
-      }
+    }
+
+    const router=useRouter()
+    const {proxy}=getCurrentInstance() as ComponentInternalInstance
+
+    // 添加文章
+    const onAdd=()=>{
+      router.push({
+        path:'/paper_add',
+        query:{
+          title:'add',
+          id:'0'
+        }
+      })
+    }  
+
+    // 编辑文章
+    const onEdit=(index:number)=>{
+      let id=papers.value[index].papers_id
+      router.push({
+        path:'/paper_add',
+        query:{
+          title:'edit',
+          id:id
+        }
+      })
+    }
+
     let papers=ref<paper[]>([])
     let deletingIndex:number=0;
     const total_count=ref(0);
@@ -101,12 +129,11 @@ export default defineComponent({
     const onPageChanged=(page:number)=>{
       getPapers(page)
     }
-    const onDeletePostClick=(index:number)=>{
+    const onDelete=(index:number)=>{
       confirmDialogVisible.value = true;
-      //console.log(index)
       deletingIndex=index;
     }
-    const onConfirmDeletePostClick=()=>{
+    const confirmDelete=()=>{
        let item=papers.value[deletingIndex]
        proxy?.$http.deletePapers(item.papers_id).then((res:any)=>{
            if(res['data']['code']==200){
@@ -115,34 +142,44 @@ export default defineComponent({
               confirmDialogVisible.value=false
            }else{
               ElMessage.info(res['message'])
+              confirmDialogVisible.value=false
            }
        })
     }
     const getPapers=(page:number)=>{
       proxy?.$http.getPapersList(page).then((res:any)=>{
-          //console.log(res)
           if(res['data']['code']==200){ 
             let data=res['data']['data']
             papers.value=data['papers_list']
             total_count.value=data['total_count']
             currentpage.value=data['page']
-            //console.log(data)
-            console.log(papers.value)
           }
       })
     }
+    const columns=ref<table_col[]>([
+      {label:'标题',prop:'title'},
+      {label:'作者',prop:'author'},
+      {label:'摘要',prop:'abstract'},
+      {label:'关键词',prop:'keywords'},
+      {label:'内容',prop:'content'},
+      {label:'发布时间',prop:'create_time'},
+    ])
     onMounted(()=>{
         getPapers(1)
     })
     return{
+      columns,
       papers,
       total_count,
       currentpage,
       confirmDialogVisible,
-      onDeletePostClick,
-      onConfirmDeletePostClick,
+      onDelete,
+      confirmDelete,
       onPageChanged,
-      formatImageUrl
+      formatImageUrl,
+      onAdd,
+      onEdit,
+      truncateText
     }
   }
 })
@@ -150,7 +187,10 @@ export default defineComponent({
 
 <style scoped>
 .el-space {
-  display: block;
+    display: block;
+}
+.center-align {
+   text-align: center !important;
 }
 .pagination-container {
   display: flex;
