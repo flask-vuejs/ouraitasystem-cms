@@ -40,12 +40,25 @@
                   </template>
                 </el-menu-item>
 
-                <el-menu-item index="4" :route="{name:'projects'}">
+                <el-sub-menu index="4">
                   <template #title>
                     <el-icon><FolderChecked /></el-icon>
                     <span>项目管理</span>
                   </template>
-                </el-menu-item>
+                  <el-menu-item index="4.1" :route="{name:'hxxm'}">
+                    <template #title>
+                      <el-icon><FolderChecked /></el-icon>
+                      <span>横向项目</span>
+                    </template>
+                  </el-menu-item>
+                  <el-menu-item index="4.2" :route="{name:'zxxm'}">
+                    <template #title>
+                      <el-icon><FolderChecked /></el-icon>
+                      <span>纵向项目</span>
+                    </template>
+                  </el-menu-item>
+                </el-sub-menu>
+
 
                 <el-menu-item index="5" :route="{name:'news'}">
                   <template #title>
@@ -58,19 +71,6 @@
                   <template #title>
                     <el-icon><UserFilled /></el-icon>
                     <span>团队信息管理</span>
-                  </template>
-                </el-menu-item>
-
-                <el-menu-item index="7" :route="{name:'users'}">
-                  <template #title>
-                    <el-icon><User /></el-icon>
-                    <span>用户管理</span>
-                  </template>
-                </el-menu-item>
-                <el-menu-item index="8" :route="{name:'banner'}">
-                  <template #title>
-                    <el-icon><User /></el-icon>
-                    <span>轮播图管理(测试用)</span>
                   </template>
                 </el-menu-item>
               </el-menu>

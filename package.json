@@ -8,13 +8,19 @@
   },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.2.1",
+    "core-js": "^3.18.3",
+    "easymde": "^2.18.0",
     "element-plus": "^2.2.19",
     "vue": "^3.2.13",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.3.2",
     "vue3-seamless-scroll": "^2.0.1",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "wangeditor": "^4.7.15",
+    "wangeditor5-for-vue3": "^1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-typescript": "~5.0.0",

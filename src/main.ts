@@ -5,7 +5,8 @@ import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import router from '@/router'
 import http from '@/utils/http'
-
+import 'easymde/dist/easymde.min.css'
+// import "core-js";
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
@@ -23,4 +24,3 @@ app.mount('#app')
 
 // npm run serve
 
-// 这周更新未同步
